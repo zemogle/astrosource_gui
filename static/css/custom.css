@@ -1,0 +1,31 @@
+
+.logging_window{
+    padding: 9.5px;
+    font-size: 13px;
+    line-height: 1.42857143;
+    color: #333;
+    word-break: break-all;
+    word-wrap: break-word;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    max-height:600px;
+    overflow: auto;
+    font-family: monospace;
+}
+
+.INFO {
+  color: blue;
+}
+
+.DEBUG {
+  color: darkorchid;
+}
+
+.ERROR {
+  color: red;
+}
+
+.WARNING {
+  color: orange;
+}

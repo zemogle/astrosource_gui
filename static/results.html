@@ -1,0 +1,45 @@
+{% extends "index.html" %}
+
+{% block script %}
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script>
+  $(document).ready(function(){
+    var source = new EventSource("{{ url_for('stream') }}");
+    source.onmessage = function(event) {
+      var msg = event.data;
+      if (msg != ''){
+        let text = msg.replace('[INFO]','<span class="info">[INFO]</span>')
+        text = text.replace('[ERROR]','<span class="error">[ERROR]</span>')
+        text = text.replace('[DEBUG]','<span class="debug">[DEBUG]</span>')
+        document.getElementById('output').innerHTML += text;
+        document.getElementById('output').scrollTo(0,document.getElementById('output').scrollHeight);
+      }
+    };
+
+    // var output = document.getElementById('output');
+    // var xhr = new XMLHttpRequest();
+    // xhr.open('GET', '{{ url_for('stream') }}', true);
+    // xhr.send();
+    // setInterval(function() {
+    //   output.textContent = xhr.responseText;
+    //   document.querySelector(".logging_window").scrollTo(0,document.querySelector(".logging_window").scrollHeight);
+    // }, 500);
+
+  });
+</script>
+{% endblock%}
+
+{% block title %}Results{% endblock %}
+
+{% block content %}
+<div class="columns">
+  <div class="column is-one-third">
+    <h2 class='subtitle'>Inputs</h2>
+    <p>Running astrosource with:</p>
+  </div>
+  <div class="column">
+    <div class="logging_window" id="output">
+    </div>
+  </div>
+</div>
+{% endblock %}

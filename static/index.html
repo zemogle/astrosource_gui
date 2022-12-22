@@ -1,0 +1,83 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" type=text/css href="{{ url_for('static', filename='css/custom.css')}}">
+    <title>AstroSource in a Browser</title>
+    {% block script%}
+    {% endblock %}
+  </head>
+  <body id="main">
+    <div class="container">
+    <section class="section">
+      <h1 class="title">{% block title %} Run Astrosource{% endblock %}</h1>
+
+      {% for message in messages %}
+          <div class='message'>
+              <h3>{{ message['ra'] }}</h3>
+              <p>{{ message['dec'] }}</p>
+          </div>
+      {% endfor %}
+
+      {% for message in get_flashed_messages() %}
+           <div class="notification is-warning">{{ message }}</div>
+       {% endfor %}
+
+      {% block content %}
+
+    <form method="post">
+      <div class="field">
+        <label class="label">RA</label>
+        <div class="control">
+          <input name="ra" class="input" type="text" placeholder="In degrees or hh:mm:ss" value="{{ request.form['ra'] }}"/>
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">Dec</label>
+        <div class="control">
+          <input name="dec" class="input" type="text" placeholder="In degrees or dd:mm:ss" value="{{ request.form['dec'] }}"/>
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">Directory of files</label>
+        <div class="control">
+          <input name="indir" class="input" type="text" placeholder="Full path e.g. /Users/username/mydata" value="{{ request.form['indir'] }}"/>
+        </div>
+      </div>
+
+      <fieldset>
+        <legend>Optional Settings</legend>
+        <div class="columns">
+          <div class="column is-half">
+            <div class="field is-horizontal">
+              <div class="field-label is-normal">
+                <label class="label">Match Radius</label>
+              </div>
+              <div class="field-body">
+                <div class="field">
+                  <div class="control">
+                    <input name="matchradius" class="input" type="number" value=1.0 value="{{ request.form['matchradius'] }}" />
+                    <p class="help">
+                      Limiting distance (arcsecs) when matching general stars, usually comparisons.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </fieldset>
+
+      <div class="field is-grouped">
+        <div class="control">
+          <button class="button is-link" type="submit">Submit</button>
+        </div>
+        <div class="control">
+          <button class="button is-link is-light">Cancel</button>
+        </div>
+      </div>
+    </form>
+      {% endblock %}
+
+    </section>
+    </div>
+  </body>
+</html>
